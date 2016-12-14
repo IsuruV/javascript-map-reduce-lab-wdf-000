@@ -12,6 +12,7 @@ describe('Map/reduce lab', () => {
       const hasPassed = issuesWithUpdatedApiUrl.every(issue => {
         const hasOldUrl = issue.url.includes('api.github.com');
         const hasNewUrl = issue.url.includes('api-v2.github.com');
+
         return !hasOldUrl && hasNewUrl;
       });
       expect(hasPassed).toBeTruthy('The API URL has not been replaced properly in every issue.');

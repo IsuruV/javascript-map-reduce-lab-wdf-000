@@ -9000,3 +9000,148 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+
+  // const issues = [
+  //   {
+  //     "body": "https://github.com/learn-co-curriculum/sinatra-secure-password-lab/blob/master/app/controllers/application_controller.rb and all the other files",
+  //     "created_at": "2015-12-08 16:05:59 UTC",
+  //     "comments_count": 1,
+  //     "id": 121039639,
+  //     "number": 2,
+  //     "state": "open",
+  //     "url": "https://api.github.com/repos/learn-co-curriculum/sinatra-secure-password-lab/issues/2"
+  //   },
+  //   {
+  //     "body": "This pull request has been automatically created by learn.co.",
+  //     "created_at": "2015-12-08 15:46:07 UTC",
+  //     "comments_count": 0,
+  //     "id": 121034929,
+  //     "number": 2,
+  //     "state": "closed",
+  //     "url": "https://api.github.com/repos/learn-co-curriculum/ruby-objects-belong-to-lab/issues/2"
+  //   },
+  //   {
+  //     "body": "",
+  //     "created_at": "2016-02-08 21:43:02 UTC",
+  //     "comments_count": 0,
+  //     "id": 132264359,
+  //     "number": 2,
+  //     "state": "closed",
+  //     "url": "https://api.github.com/repos/learn-co-curriculum/css-manifests/issues/2"
+  //   },
+  //   {
+  //     "body": "Just explain how they are magical methods that will show up",
+  //     "created_at": "2015-12-08 16:07:10 UTC",
+  //     "comments_count": 3,
+  //     "id": 121040036,
+  //     "number": 3,
+  //     "state": "open",
+  //     "url": "https://api.github.com/repos/learn-co-curriculum/sinatra-secure-password-lab/issues/3"
+  //   },
+  //   {
+  //     "body": "",
+  //     "created_at": "2016-02-08 21:41:42 UTC",
+  //     "comments_count": 0,
+  //     "id": 132264030,
+  //     "number": 2,
+  //     "state": "closed",
+  //     "url": "https://api.github.com/repos/learn-co-curriculum/external-javascript-libraries-in-rails/issues/2"
+  //   },
+  //   {
+  //     "body": "This pull request has been automatically created by learn.co.",
+  //     "created_at": "2015-12-08 15:04:46 UTC",
+  //     "comments_count": 0,
+  //     "id": 121025833,
+  //     "number": 9,
+  //     "state": "closed",
+  //     "url": "https://api.github.com/repos/learn-co-curriculum/ruby-objects-has-many-readme/issues/9"
+  //   },
+  //   {
+  //     "body": "This pull request has been automatically created by learn.co.",
+  //     "created_at": "2015-12-08 14:38:13 UTC",
+  //     "comments_count": 1,
+  //     "id": 121020195,
+  //     "number": 2,
+  //     "state": "closed",
+  //     "url": "https://api.github.com/repos/learn-co-curriculum/swift-collection-types/issues/2"
+  //   },
+  //   {
+  //     "body": "We shouldn't be teaching this and should focus on interpolation and making https://github.com/learn-co-curriculum/interpolation-readme better and more complete.",
+  //     "created_at": "2015-06-08 20:12:25 UTC",
+  //     "comments_count": 1,
+  //     "id": 86313315,
+  //     "number": 1,
+  //     "state": "open",
+  //     "url": "https://api.github.com/repos/learn-co-curriculum/string-concatenation-readme/issues/1"
+  //   },
+  //   {
+  //     "body": "",
+  //     "created_at": "2015-04-04 13:25:06 UTC",
+  //     "comments_count": 0,
+  //     "id": 66319867,
+  //     "number": 2,
+  //     "state": "closed",
+  //     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
+  //   }
+  // ]
+
+  var issuesWithUpdatedApiUrl = new Array;
+   issuesWithUpdatedApiUrl = issues.map((issue)=>{
+        if( !!issue.url.match(/api.github.com/) == true){
+          return Object.assign({},issue,{
+            body: issue.body,
+            created_at: issue.created_at,
+            id: issue.id,
+            number: issue.number,
+            state: issue.state,
+            url: issue.url.replace(/api.github.com/g, 'api-v2.github.com')
+          })
+        }else{
+          return Object.assign({},issue,{
+            body: issue.body,
+            created_at: issue.created_at,
+            id: issue.id,
+            number: issue.number,
+            state: issue.state,
+            url: issue.url.replace(/api.github.com/g, 'api-v2.github.com')
+          })
+        }
+    })
+
+
+  var comments = [];
+  issues.map((issue)=>{
+        comments.push(issue.comments_count);
+   })
+
+   var commentCountAcrossIssues = 0;
+   comments.reduce((a,b)=>{
+     return commentCountAcrossIssues = a+b;
+   },commentCountAcrossIssues);
+
+
+   var openIssues = [];
+   issues.map((issue)=>{
+     if (issue.state == "open"){
+       openIssues.push(issue);
+     }
+   })
+
+   var nonAutomaticIssues = [];
+   issues.map((issue)=>{
+     if (issue.body == "This pull request has been automatically created by learn.co." ){
+        nonAutomaticIssues.push(issue);
+      }
+   })
+
+   function appendToTable(){
+     nonAutomaticIssues.map((issue)=>{
+       $("#results").append(`
+         <tr><td>${issue.body}</td><td>${issue.created_at}</td><td>${issue.state}</td></tr>`)
+     })
+   }
+
+$(document).ready(()=>{
+  appendToTable();
+})
